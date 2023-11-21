@@ -1,0 +1,25 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns:t="http://tapestry.apache.org/schema/tapestry_5_4.xsd">
+
+<head>
+    <style>
+        .footer-container {
+                background-color: yellow;
+                padding: 10px;
+            }
+
+        .footer-container h1 {
+                color: black;
+            }
+    </style>
+</head>
+
+<body >
+
+<div class = "footer-container">
+    <h2>${message} </h2>
+</div>
+
+</body>
+</html>
