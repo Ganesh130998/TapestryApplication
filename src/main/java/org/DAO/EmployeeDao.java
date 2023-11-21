@@ -51,12 +51,22 @@ public class EmployeeDao {
         return updatedEmployee;
     }
 
-    public void delete(Employee e) {
+    /*public void delete(Employee e) {
         Session session =this.sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         //this.sessionFactory.getCurrentSession().save(e);
         session.delete(e);
         transaction.commit();
+        session.close();
+    }*/
+    public void delete(int id) {
+        Session session =this.sessionFactory.openSession();
+        Transaction transaction = session.beginTransaction();
+        Employee employeeToDelete = session.get(Employee.class, id);
+        if (employeeToDelete != null) {
+            session.delete(employeeToDelete);
+            transaction.commit();
+        }
         session.close();
     }
 }

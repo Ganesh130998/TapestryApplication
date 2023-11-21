@@ -37,13 +37,44 @@ public class EmployeeDetails {
         employeeDao.save(user);
     }
 
-    public void update(Employee user) {
+    public void update(Employee updatedUser) {
         if (users == null) {
             users = new ArrayList<>();
         }
+
+
+        /*//employeeDao.delete(user);
         user = employeeDao.update(user);
         users.add(user);
-        employeeDao.save(user);
+        //employeeDao.save(user);*/
+
+
+        boolean employeeExists = false;
+        for (int i = 0; i < users.size(); i++) {
+            Employee existingUser = users.get(i);
+            if (existingUser.getId() == updatedUser.getId()) {
+                existingUser.setName(updatedUser.getName());
+                existingUser.setAge(updatedUser.getAge());
+                existingUser.setAddress(updatedUser.getAddress());
+                employeeExists = true;
+                break;
+            }
+        }
+
+        if (!employeeExists) {
+            users.add(updatedUser);
+        }
+
+        employeeDao.save(updatedUser);
+    }
+
+    public void delete(Employee user) {
+        if (users == null) {
+            users = new ArrayList<>();
+        }
+
+        users.remove(user);
+        employeeDao.delete(user.getId());
     }
 }
 

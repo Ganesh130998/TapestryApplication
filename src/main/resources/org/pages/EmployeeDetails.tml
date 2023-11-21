@@ -15,6 +15,9 @@
         <p:editcell>
             <t:pagelink page="EditIndividualEmployee" context="[user.id,user.name,user.age,user.address]">edit</t:pagelink>
         </p:editcell>
+        <!--<p:deletecell>
+            <t:pagelink page="DeleteIndividualEmployee" context="[user.id,user.name,user.age,user.address]">delete</t:pagelink>
+        </p:deletecell>-->
         <p:deletecell>
             <t:pagelink page="DeleteIndividualEmployee" context="[user.id,user.name,user.age,user.address]">delete</t:pagelink>
         </p:deletecell>

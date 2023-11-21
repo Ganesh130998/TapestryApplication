@@ -1,11 +1,13 @@
 package org.pages;
 
+import org.DAO.EmployeeDao;
 import org.Data.entities.Employee;
 import org.apache.tapestry5.annotations.InjectComponent;
 import org.apache.tapestry5.annotations.InjectPage;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.corelib.components.Form;
 import org.apache.tapestry5.corelib.components.TextField;
+import org.apache.tapestry5.ioc.annotations.Inject;
 import org.model.SampleEmployee;
 
 import java.util.List;
@@ -54,6 +56,8 @@ public class EditIndividualEmployee {
 
     }
 
+    @Inject
+    private EmployeeDao employeeDao;
     @InjectPage
     private EmployeeDetails page2;
     @Property
@@ -61,8 +65,9 @@ public class EditIndividualEmployee {
     @Property
     private SampleEmployee user;
     Object onSuccessFromNames() {
+        employeeDao.delete(id);
+        //users.remove(user);
         Employee user  = new Employee(id,name,age,address);
-        //users.add(user);
         page2.update(user);
         return EmployeeDetails.class;
     }
