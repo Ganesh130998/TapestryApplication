@@ -6,6 +6,7 @@ import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.ioc.annotations.Inject;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 public class EmployeeDetails {
@@ -68,8 +69,26 @@ public class EmployeeDetails {
         employeeDao.save(updatedUser);
     }
 
+   /* public void delete(Employee user) {
+//        employeeDao.delete(user.getId());
+//        users = employeeDao.getAll();
+
+        users.remove(user);
+
+//        users= users.stream()
+//                .filter(employee -> employee.getId()!=user.getId())
+//                .collect(Collectors.toList());
+    }*/
+
     public void delete(Employee user) {
-        users = employeeDao.getAll();
+        Iterator<Employee> iterator = users.iterator();
+        while (iterator.hasNext()) {
+            Employee existingUser = iterator.next();
+            if (existingUser.getId() == user.getId()) {
+                iterator.remove();
+                break;
+            }
+        }
     }
 }
 
