@@ -69,12 +69,7 @@ public class EmployeeDetails {
     }
 
     public void delete(Employee user) {
-        if (users == null) {
-            users = new ArrayList<>();
-        }
-
-        users.remove(user);
-        employeeDao.delete(user.getId());
+        users = employeeDao.getAll();
     }
 }
 

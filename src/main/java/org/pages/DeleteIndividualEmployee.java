@@ -26,12 +26,15 @@ public class DeleteIndividualEmployee {
             this.name = name;
             this.age = age;
             this.address = address;
-        }
-
-        Object[] onPassivate() {
             employeeDao.delete(id);
             Employee user  = new Employee(id,name,age,address);
             page2.delete(user);
+        }
+
+        Object[] onPassivate() {
+            //employeeDao.delete(id);
+//            Employee user  = new Employee(id,name,age,address);
+//            page2.delete(user);
             return new Object[]{id,name,age,address};
         }
     }

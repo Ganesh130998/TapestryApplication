@@ -5,8 +5,11 @@ import org.Data.entities.Employee;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.TransactionManager;
+
+import java.util.List;
 
 @Repository
 public class EmployeeDao {
@@ -33,10 +36,16 @@ public class EmployeeDao {
         session.close();
     }
 
-    /*public List<Employee> getAll(){
-       List<Employee> employee=this.hibernateTemplate.loadAll(Employee.class);
-       return employee;
-    }*/
+    public List<Employee> getAll(){
+        Session session =this.sessionFactory.openSession();
+        try {
+            Query<Employee> query = session.createQuery("FROM Employee", Employee.class);
+            List<Employee> employees = query.list();
+            return employees;
+        } finally {
+            session.close();
+        }
+    }
 
     public Employee update(Employee e) {
         Session session =this.sessionFactory.openSession();
