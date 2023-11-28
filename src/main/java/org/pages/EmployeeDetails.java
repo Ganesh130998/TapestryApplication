@@ -6,7 +6,6 @@ import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.ioc.annotations.Inject;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class EmployeeDetails {
@@ -17,25 +16,30 @@ public class EmployeeDetails {
     @Property
     private Employee user;
 
-    EmployeeDetails() {
-        users = getUserData();
+    public void onActivate() {
+        if (users == null) {
+            users = new ArrayList<>();
+        }
+
+        users = employeeDao.getAllEmployees();
     }
-    private List<Employee> getUserData(){
+
+    /*private List<Employee> getUserData(){
         List<Employee> Users = new ArrayList<>();
         for(int i = 1; i <= 10; i++) {
-            Employee user = new Employee( i,"User" + i, 20 + i, "City" +i);
+            Employee user = new Employee("User" + i, 20 + i, "City" +i);
             employeeDao.save(user);
             Users.add(user);
         }
         return Users;
-    }
+    }*/
 
     public void set(Employee user) {
         if (users == null) {
             users = new ArrayList<>();
         }
-        users.add(user);
-        employeeDao.save(user);
+        employeeDao.saveEmployee(user);
+        users = employeeDao.getAllEmployees();
     }
 
     public void update(Employee updatedUser) {
@@ -43,14 +47,7 @@ public class EmployeeDetails {
             users = new ArrayList<>();
         }
 
-
-        /*//employeeDao.delete(user);
-        user = employeeDao.update(user);
-        users.add(user);
-        //employeeDao.save(user);*/
-
-
-        boolean employeeExists = false;
+        /*boolean employeeExists = false;
         for (int i = 0; i < users.size(); i++) {
             Employee existingUser = users.get(i);
             if (existingUser.getId() == updatedUser.getId()) {
@@ -64,23 +61,14 @@ public class EmployeeDetails {
 
         if (!employeeExists) {
             users.add(updatedUser);
-        }
+        }*/
 
-        employeeDao.save(updatedUser);
+        employeeDao.updateEmployee(updatedUser);
+        users = employeeDao.getAllEmployees();
     }
 
-   /* public void delete(Employee user) {
-//        employeeDao.delete(user.getId());
-//        users = employeeDao.getAll();
 
-        users.remove(user);
-
-//        users= users.stream()
-//                .filter(employee -> employee.getId()!=user.getId())
-//                .collect(Collectors.toList());
-    }*/
-
-    public void delete(Employee user) {
+    /*public void delete(Employee user) {
         Iterator<Employee> iterator = users.iterator();
         while (iterator.hasNext()) {
             Employee existingUser = iterator.next();
@@ -89,6 +77,27 @@ public class EmployeeDetails {
                 break;
             }
         }
+    }*/
+
+    @Property
+    private int id;
+    @Property
+    private String name;
+    @Property
+    private int age;
+    @Property
+    private String address;
+
+
+    public void onActionFromDeleteLink(int id, String name,int age , String address) {
+        employeeDao.deleteEmployee(id);
+        users = employeeDao.getAllEmployees();
+//        Employee user  = new Employee(name,age,address);
+//        delete(user);
     }
+
+  /*  public void afterRender() {
+        users = employeeDao.getAllEmployees();
+    }*/
 }
 

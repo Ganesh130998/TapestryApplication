@@ -8,18 +8,22 @@
 <h3>Featuring Employee details in Grid</h3>
 
 <div class="eg">
-    <t:grid source="users" row="user" add="edit,delete"  rowsPerPage="5" pagerPosition="bottom">
-        <p:idCell>
-            <t:pagelink page="IndividualEmployee" context="[user.id,user.name,user.age,user.address]">${user.id}</t:pagelink>
-        </p:idCell>
+    <t:grid source="users" row="user" add="edit,delete"  pagerPosition="bottom">
+<!--        <p:idCell>-->
+<!--            <t:pagelink page="IndividualEmployee" context="[user.name,user.age,user.address]">${user.id}</t:pagelink>-->
+<!--        </p:idCell>-->
+
         <p:editcell>
-            <t:pagelink page="EditIndividualEmployee" context="[user.id,user.name,user.age,user.address]">edit</t:pagelink>
+            <t:pagelink page="EditIndividualEmployee" context="[user.name,user.age,user.address]">edit</t:pagelink>
         </p:editcell>
+
         <!--<p:deletecell>
             <t:pagelink page="DeleteIndividualEmployee" context="[user.id,user.name,user.age,user.address]">delete</t:pagelink>
         </p:deletecell>-->
+
         <p:deletecell>
-            <t:pagelink page="DeleteIndividualEmployee" context="[user.id,user.name,user.age,user.address]">delete</t:pagelink>
+            <t:actionlink t:id="deleteLink" context="[user.name,user.age,user.address]">Delete</t:actionlink>
+<!--            <t:pagelink page="DeleteIndividualEmployee" context="[user.id,user.name,user.age,user.address]">delete</t:pagelink>-->
         </p:deletecell>
     </t:grid>
 </div>

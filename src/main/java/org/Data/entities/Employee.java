@@ -1,15 +1,13 @@
 package org.Data.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "employee")
  public class Employee {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name ="id")
     private int id;
 
@@ -23,11 +21,16 @@ import javax.persistence.Table;
     private String address;
 
 
-    public Employee(int id, String name,int age, String address){
-       this.id = id;
-       this.name =name;
-       this.age = age;
-       this.address =address;
+//    public Employee( String name,int age, String address){
+//        this(0,name,age,address);
+//    }
+
+    public Employee(String name,int age, String address){
+
+//        this.id = id;
+        this.name =name;
+        this.age = age;
+        this.address =address;
     }
 
     public Employee(){

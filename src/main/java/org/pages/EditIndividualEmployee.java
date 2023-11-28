@@ -65,9 +65,9 @@ public class EditIndividualEmployee {
     @Property
     private SampleEmployee user;
     Object onSuccessFromNames() {
-        employeeDao.delete(id);
+        employeeDao.deleteEmployee(id);
         //users.remove(user);
-        Employee user  = new Employee(id,name,age,address);
+        Employee user  = new Employee(name,age,address);
         page2.update(user);
         return EmployeeDetails.class;
     }

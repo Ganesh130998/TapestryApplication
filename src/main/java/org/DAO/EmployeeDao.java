@@ -2,19 +2,20 @@ package org.DAO;
 
 
 import org.Data.entities.Employee;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.query.Query;
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.TransactionManager;
 
 import java.util.List;
+//extends JpaRepository<Employee,int>
 
-@Repository
-public class EmployeeDao {
+public interface EmployeeDao {
 
-    private final SessionFactory sessionFactory;
+    List<Employee> getAllEmployees();
+    void saveEmployee(Employee e);
+    void updateEmployee(Employee e);
+    void deleteEmployee(int id);
+    Employee getEmployeeById(int employeeId);
+
+
+    /*private final SessionFactory sessionFactory;
     private final TransactionManager transactionManager;
     public EmployeeDao(SessionFactory sessionFactory, TransactionManager transactionManager) {
         this.sessionFactory = sessionFactory;
@@ -22,10 +23,10 @@ public class EmployeeDao {
     }
 
 
-    /*public int save(Employee e){
+    *//*public int save(Employee e){
         Integer i = (Integer) this.hibernateTemplate.save(e);
         return i;
-    }*/
+    }*//*
     //@Transactional
     public void save(Employee e){
         Session session =this.sessionFactory.openSession();
@@ -60,14 +61,14 @@ public class EmployeeDao {
         return updatedEmployee;
     }
 
-    /*public void delete(Employee e) {
+    *//*public void delete(Employee e) {
         Session session =this.sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
         //this.sessionFactory.getCurrentSession().save(e);
         session.delete(e);
         transaction.commit();
         session.close();
-    }*/
+    }*//*
     public void delete(int id) {
         Session session =this.sessionFactory.openSession();
         Transaction transaction = session.beginTransaction();
@@ -77,5 +78,5 @@ public class EmployeeDao {
             transaction.commit();
         }
         session.close();
-    }
+    }*/
 }
