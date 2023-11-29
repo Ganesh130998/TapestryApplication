@@ -22,6 +22,14 @@ public class EditIndividualEmployee {
     @Persist
     private Employee employee;
 
+    @Inject
+    private EmployeeDao employeeDao;
+//    @Inject
+//    private EmployeeDaoImpl employeeDaoImpl;
+    @InjectPage
+    private EmployeeDetails page2;
+    @Property
+    private List<SampleEmployee> users;
 
     @InjectComponent("names")
     private Form form;
@@ -46,26 +54,19 @@ public class EditIndividualEmployee {
 
     void onValidateFromNames() {
 
-        /*if(name == null || !name.matches("^[a-zA-Z]*$")){
-            form.recordError(nameField, "Please provide correct name");
+        if(employee.getName() == null || employeeDao.isNameAlreadyExists(employee.getName())){
+            form.recordError(nameField, "Name already exists!");
         }
-        else if(age < 0 || age !=(int)age){
-            form.recordError(ageField, "Please provide correct age");
+        else if(employee.getAge() < 18 || employee.getAge() > 60){
+            form.recordError(ageField, "Age should be between 18-60");
         }
-        else if(address == null || !address.matches("^[a-zA-Z]*$")){
+        else if(employee.getAddress() == null || !employee.getAddress().matches("^[a-zA-Z]*$")){
             form.recordError(addressField, "Please provide correct address");
-        }*/
+        }
 
     }
 
-    @Inject
-    private EmployeeDao employeeDao;
-    @InjectPage
-    private EmployeeDetails page2;
-    @Property
-    private List<SampleEmployee> users;
-    @Property
-    private SampleEmployee user;
+
     Object onSuccessFromNames() {
 //
         page2.update(employee);

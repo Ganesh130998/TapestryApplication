@@ -1,21 +1,23 @@
 package org.pages;
 
 
+import org.DAO.EmployeeDao;
 import org.Data.entities.Employee;
 import org.apache.tapestry5.annotations.InjectComponent;
 import org.apache.tapestry5.annotations.InjectPage;
+import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.corelib.components.Form;
 import org.apache.tapestry5.corelib.components.TextField;
-import org.model.SampleEmployee;
+import org.apache.tapestry5.ioc.annotations.Inject;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
 public class NewEmployee {
 
-//    @Property
-//    private int id;
+
 
     @Property
     private String name;
@@ -24,12 +26,20 @@ public class NewEmployee {
     @Property
     private String address;
 
+    @Property
+    @Persist
+    private Employee employee;
+
+    @Inject
+    private EmployeeDao employeeDao;
+
+    private List<Employee> users;
 
     @InjectComponent("names")
     private Form form;
 
-//    @InjectComponent(value = "id")
-//    private TextField idField;
+    @InjectPage
+    private EmployeeDetails page2;
 
     @InjectComponent(value = "name")
     private TextField nameField;
@@ -40,16 +50,31 @@ public class NewEmployee {
     @InjectComponent(value = "address")
     private TextField addressField;
 
+    public void onActivate() {
+        if (users == null) {
+            users = new ArrayList<>();
+        }
+
+        users = employeeDao.getAllEmployees();
+    }
+
+    public boolean isNameUnique(List<Employee> users, String newName) {
+        for (Employee existingEmployee : users) {
+            if (existingEmployee.getName().equals(newName)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     void onValidateFromNames() {
 
-        /*if(id < 0 || id !=(int)id){
-            form.recordError(idField, "Please provide correct id");
-        }*/
-         if(name == null || !name.matches("^[a-zA-Z]*$")){
-            form.recordError(nameField, "Please provide correct name");
+        if(name == null || !isNameUnique(users,name)){
+            form.recordError(nameField, "Name already exists!");
         }
-        else if(age < 0 || age !=(int)age){
-            form.recordError(ageField, "Please provide correct age");
+        else if(age < 18 || age > 60){
+            form.recordError(ageField, "Age should be between 18-60");
         }
         else if(address == null || !address.matches("^[a-zA-Z]*$")){
             form.recordError(addressField, "Please provide correct address");
@@ -57,12 +82,9 @@ public class NewEmployee {
 
     }
 
-    @InjectPage
-    private EmployeeDetails page2;
-    @Property
-    private List<SampleEmployee> users;
-    @Property
-    private SampleEmployee user;
+
+
+
     Object onSuccessFromNames() {
         Employee user  = new Employee(name,age,address);
         //users.add(user);

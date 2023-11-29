@@ -13,7 +13,7 @@ public interface EmployeeDao {
     void updateEmployee(Employee e);
     void deleteEmployee(int id);
     Employee getEmployeeById(int employeeId);
-
+    boolean isNameAlreadyExists(String name);
 
     /*private final SessionFactory sessionFactory;
     private final TransactionManager transactionManager;
