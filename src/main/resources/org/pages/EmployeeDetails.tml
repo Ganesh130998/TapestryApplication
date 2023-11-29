@@ -14,7 +14,7 @@
 <!--        </p:idCell>-->
 
         <p:editcell>
-            <t:pagelink page="EditIndividualEmployee" context="[user.name,user.age,user.address]">edit</t:pagelink>
+            <t:pagelink page="EditIndividualEmployee" context="user.id">edit</t:pagelink>
         </p:editcell>
 
         <!--<p:deletecell>
@@ -22,7 +22,7 @@
         </p:deletecell>-->
 
         <p:deletecell>
-            <t:actionlink t:id="deleteLink" context="[user.name,user.age,user.address]">Delete</t:actionlink>
+            <t:actionlink t:id="deleteLink" context="user.id">Delete</t:actionlink>
 <!--            <t:pagelink page="DeleteIndividualEmployee" context="[user.id,user.name,user.age,user.address]">delete</t:pagelink>-->
         </p:deletecell>
     </t:grid>

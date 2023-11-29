@@ -18,19 +18,19 @@
         <div class="form-group">
             <t:label for="name" class="col-sm-2"/>
             <div class="col-sm-4">
-                <t:textfield t:id="name" t:value="name"/>
+                <t:textfield t:id="name" t:value="employee.name"/>
             </div>
         </div>
         <div class="form-group">
             <t:label for="age" class="col-sm-2"/>
             <div class="col-sm-4">
-                <t:textfield t:id="age" t:value="age"/>
+                <t:textfield t:id="age" t:value="employee.age"/>
             </div>
         </div>
         <div class="form-group">
             <t:label for="address" class="col-sm-2"/>
             <div class="col-sm-4">
-                <t:textfield t:id="address" t:value="address"/>
+                <t:textfield t:id="address" t:value="employee.address"/>
             </div>
         </div>
         <div class="form-group">

@@ -13,6 +13,7 @@
 
     <!-- Define the properties file configuration -->
     <context:component-scan base-package="org.DAO"/>
+    <context:component-scan base-package="org.services"/>
 
     <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <!--  Hard code the defaults here, but allow properties file to override -->
@@ -55,14 +56,13 @@
 
     </bean>
 
-    <bean id="hibernateTemplate" class="org.springframework.orm.hibernate5.HibernateTemplate">
-        <property name="sessionFactory" ref="sessionFactory" />
-    </bean>
+    <!--    <bean id="hibernateTemplate" class="org.springframework.orm.hibernate5.HibernateTemplate">-->
+    <!--        <property name="sessionFactory" ref="sessionFactory" />-->
+    <!--    </bean>-->
 
     <tx:annotation-driven transaction-manager="transactionManager"/>
-    <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
-        <property name="sessionFactory" ref="sessionFactory" />
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource" />
     </bean>
-
 
 </beans>

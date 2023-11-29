@@ -4,6 +4,7 @@ import org.DAO.EmployeeDao;
 import org.Data.entities.Employee;
 import org.apache.tapestry5.annotations.InjectComponent;
 import org.apache.tapestry5.annotations.InjectPage;
+import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.corelib.components.Form;
 import org.apache.tapestry5.corelib.components.TextField;
@@ -18,17 +19,21 @@ public class EditIndividualEmployee {
     private int id;
 
     @Property
-    private String name;
-    @Property
-    private int age;
-    @Property
-    private String address;
+    @Persist
+    private Employee employee;
+
 
     @InjectComponent("names")
     private Form form;
 
+    public void onActivate(int id) {
+        this.id =id;
+        employee = employeeDao.getEmployeeById(id);
+    }
+/*
     @InjectComponent(value = "id")
     private TextField idField;
+*/
 
     @InjectComponent(value = "name")
     private TextField nameField;
@@ -41,10 +46,7 @@ public class EditIndividualEmployee {
 
     void onValidateFromNames() {
 
-        if(id < 0 || id !=(int)id){
-            form.recordError(idField, "Please provide correct id");
-        }
-        else if(name == null || !name.matches("^[a-zA-Z]*$")){
+        /*if(name == null || !name.matches("^[a-zA-Z]*$")){
             form.recordError(nameField, "Please provide correct name");
         }
         else if(age < 0 || age !=(int)age){
@@ -52,7 +54,7 @@ public class EditIndividualEmployee {
         }
         else if(address == null || !address.matches("^[a-zA-Z]*$")){
             form.recordError(addressField, "Please provide correct address");
-        }
+        }*/
 
     }
 
@@ -65,11 +67,13 @@ public class EditIndividualEmployee {
     @Property
     private SampleEmployee user;
     Object onSuccessFromNames() {
-        employeeDao.deleteEmployee(id);
-        //users.remove(user);
-        Employee user  = new Employee(name,age,address);
-        page2.update(user);
+//
+        page2.update(employee);
         return EmployeeDetails.class;
+    }
+
+    public int onPassivate(){
+        return this.id;
     }
 }
 

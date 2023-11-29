@@ -1,13 +1,14 @@
 package org.DAO;
 
 import org.Data.entities.Employee;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.TransactionManager;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -21,47 +22,61 @@ public class EmployeeDaoImpl implements EmployeeDao {
     private final SessionFactory sessionFactory;
     private final TransactionManager transactionManager;
 
+
+
     @Autowired
     public EmployeeDaoImpl(SessionFactory sessionFactory, TransactionManager transactionManager) {
         this.sessionFactory = sessionFactory;
         this.transactionManager = transactionManager;
     }
 
+    private Session getSession(){
+        Session session = null;
+        try{
+            session = sessionFactory.getCurrentSession();
+        }
+        catch(Exception e){
+            session = sessionFactory.openSession();
+        }
+        return session;
+    }
 
-    @Transactional
     public void saveEmployee(Employee employee) {
         // Check if the name is unique before saving
-        if (!isNameAlreadyExists(employee.getName())) {
-            Session session = sessionFactory.getCurrentSession();
-            Transaction transaction = session.beginTransaction();
+        //if (!isNameAlreadyExists(employee.getName())) {
+            Session session = getSession();
+           // Transaction transaction = session.beginTransaction();
             session.save(employee);
-            transaction.commit();
-        } else {
-            throw new IllegalArgumentException("Employee with the same name already exists.");
-        }
+           // transaction.commit();
+//        } else {
+//            throw new IllegalArgumentException("Employee with the same name already exists.");
+//        }
     }
 
 
-    @Transactional
+    //@Transactional
     public void updateEmployee(Employee employee) {
         // Check if the name is unique before updating
-        if (!isNameAlreadyExists(employee.getName(), employee.getId())) {
-            Session session = sessionFactory.getCurrentSession();
+        //if (!isNameAlreadyExists(employee.getName(), employee.getId())) {
+            Session session = getSession();
             Transaction transaction = session.beginTransaction();
-            session.update(employee);
+            session.saveOrUpdate(employee);
             transaction.commit();
-        } else {
-            // Handle the case where the name already exists
-            throw new IllegalArgumentException("Employee with the same name already exists.");
-        }
+//        } else {
+//            // Handle the case where the name already exists
+//            throw new IllegalArgumentException("Employee with the same name already exists.");
+//        }
     }
 
 
-    @Transactional
+//    @Transactional
     public void deleteEmployee(int employeeId) {
-        Session session = sessionFactory.getCurrentSession();
+        Session session = getSession();
+
         Transaction transaction = session.beginTransaction();
         Employee employee = session.get(Employee.class, employeeId);
+        session.delete(employee);
+
         if (employee != null) {
             session.delete(employee);
             transaction.commit();
@@ -69,10 +84,10 @@ public class EmployeeDaoImpl implements EmployeeDao {
     }
 
 
-    @Transactional(readOnly=true)
+
     public List<Employee> getAllEmployees() {
-        Session session = sessionFactory.getCurrentSession();
-        //Transaction transaction = session.beginTransaction();
+        Session session = getSession();
+        session.beginTransaction();
 
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<Employee> query = builder.createQuery(Employee.class);
@@ -83,10 +98,11 @@ public class EmployeeDaoImpl implements EmployeeDao {
     }
 
 
-
-    public Employee getEmployeeById(int employeeId) {
-        Session session = sessionFactory.getCurrentSession();
-        return session.get(Employee.class, employeeId);
+    public Employee getEmployeeById(int id) {
+        Session session = sessionFactory.openSession();
+        Criteria criteria = session.createCriteria(Employee.class);
+        criteria.add(Restrictions.eq("id", id));
+        return (Employee) criteria.uniqueResult();
     }
 
     // Additional methods...

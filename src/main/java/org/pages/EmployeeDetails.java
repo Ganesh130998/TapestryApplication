@@ -4,6 +4,7 @@ import org.DAO.EmployeeDao;
 import org.Data.entities.Employee;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.ioc.annotations.Inject;
+import org.services.EmployeeService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +14,9 @@ public class EmployeeDetails {
     private List<Employee> users;
     @Inject
     private EmployeeDao employeeDao;
+
+    @Inject
+    private EmployeeService employeeService;
     @Property
     private Employee user;
 
@@ -47,22 +51,6 @@ public class EmployeeDetails {
             users = new ArrayList<>();
         }
 
-        /*boolean employeeExists = false;
-        for (int i = 0; i < users.size(); i++) {
-            Employee existingUser = users.get(i);
-            if (existingUser.getId() == updatedUser.getId()) {
-                existingUser.setName(updatedUser.getName());
-                existingUser.setAge(updatedUser.getAge());
-                existingUser.setAddress(updatedUser.getAddress());
-                employeeExists = true;
-                break;
-            }
-        }
-
-        if (!employeeExists) {
-            users.add(updatedUser);
-        }*/
-
         employeeDao.updateEmployee(updatedUser);
         users = employeeDao.getAllEmployees();
     }
@@ -89,9 +77,9 @@ public class EmployeeDetails {
     private String address;
 
 
-    public void onActionFromDeleteLink(int id, String name,int age , String address) {
+    public void onActionFromDeleteLink(int id) {
         employeeDao.deleteEmployee(id);
-        users = employeeDao.getAllEmployees();
+       // users = employeeDao.getAllEmployees();
 //        Employee user  = new Employee(name,age,address);
 //        delete(user);
     }

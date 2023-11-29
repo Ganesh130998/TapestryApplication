@@ -10,10 +10,15 @@
         <property name="hibernate.connection.username">ganesh</property>
         <property name="hibernate.connection.password">test</property>
         <property name="hibernate.connection.pool_size">1</property>
+<!--
         <property name="hibernate.current_session_context_class">thread</property>
+-->
         <property name="hibernate.show_sql">true</property>
         <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
-
+<!--
+        <property name="hibernate.current_session_context_class">org.hibernate.context.internal.ThreadLocalSessionContext</property>
+-->
+        <property name="hibernate.hbm2ddl.auto">update</property>
         <mapping class="org.Data.entities.Employee"/>
     </session-factory>
 </hibernate-configuration>
