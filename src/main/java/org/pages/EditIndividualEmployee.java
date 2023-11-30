@@ -52,6 +52,9 @@ public class EditIndividualEmployee {
     @InjectComponent(value = "address")
     private TextField addressField;
 
+    @InjectComponent(value = "promote")
+    private TextField promoteField;
+
     void onValidateFromNames() {
 
         if(employee.getName() == null || employeeDao.isNameAlreadyExists(employee.getName())){
@@ -62,6 +65,9 @@ public class EditIndividualEmployee {
         }
         else if(employee.getAddress() == null || !employee.getAddress().matches("^[a-zA-Z]*$")){
             form.recordError(addressField, "Please provide correct address");
+        }
+        else if(!(employee.getPromote() == "Software Engineer" || employee.getPromote() != "Team Lead" || employee.getPromote() != "Manager")){
+            form.recordError(promoteField, "Please provide correct promotefield");
         }
 
     }

@@ -25,6 +25,8 @@ public class NewEmployee {
     private int age;
     @Property
     private String address;
+    @Property
+    private String promote;
 
     @Property
     @Persist
@@ -49,6 +51,8 @@ public class NewEmployee {
 
     @InjectComponent(value = "address")
     private TextField addressField;
+    @InjectComponent(value = "promote")
+    private TextField promoteField;
 
     public void onActivate() {
         if (users == null) {
@@ -79,6 +83,9 @@ public class NewEmployee {
         else if(address == null || !address.matches("^[a-zA-Z]*$")){
             form.recordError(addressField, "Please provide correct address");
         }
+        else if(!(employee.getPromote() == "Software Engineer" || employee.getPromote() != "Team Lead" || employee.getPromote() != "Manager")){
+            form.recordError(promoteField, "Please provide correct promotefield");
+        }
 
     }
 
@@ -86,9 +93,9 @@ public class NewEmployee {
 
 
     Object onSuccessFromNames() {
-        Employee user  = new Employee(name,age,address);
-        //users.add(user);
-        page2.set(user);
+        Employee user  = new Employee(name,age,address,promote);
+        employeeDao.saveEmployee(user);
+        //page2.set(user);
         return EmployeeDetails.class;
     }
 }

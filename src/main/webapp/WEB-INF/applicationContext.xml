@@ -13,7 +13,7 @@
 
     <!-- Define the properties file configuration -->
     <context:component-scan base-package="org.DAO"/>
-    <context:component-scan base-package="org.services"/>
+<!--    <context:component-scan base-package="org.services"/>-->
 
     <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
         <!--  Hard code the defaults here, but allow properties file to override -->

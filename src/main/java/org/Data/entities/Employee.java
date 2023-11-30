@@ -20,17 +20,21 @@ import javax.persistence.*;
     @Column(name= "address")
     private String address;
 
+    @Column(name= "promote")
+    private String promote;
+
 
 //    public Employee( String name,int age, String address){
 //        this(0,name,age,address);
 //    }
 
-    public Employee(String name,int age, String address){
+    public Employee(String name,int age, String address,String promote){
 
 //        this.id = id;
         this.name =name;
         this.age = age;
         this.address =address;
+        this.promote = promote;
     }
 
     public Employee(){
@@ -64,4 +68,10 @@ import javax.persistence.*;
       this.address = address;
    }
 
+    public String getPromote(){
+        return promote;
+    }
+    public void setPromote(String promote){
+        this.promote = promote;
+    }
 }

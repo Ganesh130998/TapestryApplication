@@ -8,29 +8,41 @@
 <h3>Featuring Employee details in Grid</h3>
 
 <div class="eg">
-    <t:grid source="users" row="user" add="edit,delete"  pagerPosition="bottom">
-<!--        <p:idCell>-->
-<!--            <t:pagelink page="IndividualEmployee" context="[user.name,user.age,user.address]">${user.id}</t:pagelink>-->
-<!--        </p:idCell>-->
+    <t:grid source="users" row="employee" add="edit,delete,Image"  pagerPosition="bottom">
+        <p:idCell>
+            <t:pagelink page="IndividualEmployee" context="[employee.id,employee.name,employee.age,employee.address]">${employee.id}</t:pagelink>
+        </p:idCell>
 
         <p:editcell>
-            <t:pagelink page="EditIndividualEmployee" context="user.id">edit</t:pagelink>
+            <t:pagelink page="EditIndividualEmployee" context="employee.id">edit</t:pagelink>
         </p:editcell>
 
-        <!--<p:deletecell>
-            <t:pagelink page="DeleteIndividualEmployee" context="[user.id,user.name,user.age,user.address]">delete</t:pagelink>
-        </p:deletecell>-->
-
         <p:deletecell>
-            <t:actionlink t:id="deleteLink" context="user.id">Delete</t:actionlink>
-<!--            <t:pagelink page="DeleteIndividualEmployee" context="[user.id,user.name,user.age,user.address]">delete</t:pagelink>-->
+            <t:actionlink t:id="deleteLink" context="employee.id">Delete</t:actionlink>
         </p:deletecell>
+
+        <p:imageCell>
+<!--           <t:actionlink t:id="imageLink" context="literal:src/main/webapp/DummyImage.png">Image</t:actionlink>-->
+            <a t:type = "jquery/DialogAjaxLink" t:id="imageLink" context="literal:src/main/webapp/DummyImage2.png" t:dialog="imageDialog" t:zone = "imageDialogZone">Image</a>
+        </p:imageCell>
+
+        <p:idCell>
+            <t:eventlink page="IndividualEmployee" context="[employee.id,employee.name,employee.age,employee.address]">${employee.id}</t:eventlink>
+        </p:idCell>
+
+
     </t:grid>
 </div>
-
 <t:pagelink page="NewEmployee">Click here if you want to add detail.</t:pagelink>
 <t:Footer t:name="literal:Login"> </t:Footer>
 
 </body>
+
+<t:jquery.dialog t:clientId="imageDialog" t:zone = "imageDialogZone" t:params="literal:{width:600, height:500}">
+    <t:zone t:id ="imageDialogZone" >
+        <img src="${context:ElonMusk.jpg}" alt="Your Image Alt Text"/>
+    </t:zone>
+</t:jquery.dialog>
+
 </html>
 

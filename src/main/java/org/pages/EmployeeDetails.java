@@ -2,9 +2,14 @@ package org.pages;
 
 import org.DAO.EmployeeDao;
 import org.Data.entities.Employee;
+import org.apache.tapestry5.annotations.InjectComponent;
+import org.apache.tapestry5.annotations.OnEvent;
+import org.apache.tapestry5.annotations.Persist;
 import org.apache.tapestry5.annotations.Property;
+import org.apache.tapestry5.corelib.components.Zone;
 import org.apache.tapestry5.ioc.annotations.Inject;
-import org.services.EmployeeService;
+import org.apache.tapestry5.services.ajax.AjaxResponseRenderer;
+import org.apache.tapestry5.services.javascript.JavaScriptSupport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,28 +20,56 @@ public class EmployeeDetails {
     @Inject
     private EmployeeDao employeeDao;
 
+    @InjectComponent
+    private Zone imageDialogZone;
+
     @Inject
-    private EmployeeService employeeService;
+    private AjaxResponseRenderer ajaxResponseRenderer;
+
     @Property
-    private Employee user;
+    @Persist
+    private int count1;
+
+    @Property
+    private String designation;
+
+    @Property
+    private String imagePath;
+
+    @Inject
+    private JavaScriptSupport javaScriptSupport;
+
+    @Property
+    private Employee employee;
+
+    @Property
+    private int id;
+    @Property
+    private String name;
+    @Property
+    private int age;
+    @Property
+    private String address;
+    @Property
+    private String promote;
+
+
+
+//    @SetupRender
+//    void setup() {
+//        countMap = new HashMap<>();
+//        //designation = ;
+//        for (Employee employee : users) {
+//            countMap.put(employee, 0);
+//        }
+//    }
 
     public void onActivate() {
         if (users == null) {
             users = new ArrayList<>();
         }
-
         users = employeeDao.getAllEmployees();
     }
-
-    /*private List<Employee> getUserData(){
-        List<Employee> Users = new ArrayList<>();
-        for(int i = 1; i <= 10; i++) {
-            Employee user = new Employee("User" + i, 20 + i, "City" +i);
-            employeeDao.save(user);
-            Users.add(user);
-        }
-        return Users;
-    }*/
 
     public void set(Employee user) {
         if (users == null) {
@@ -55,37 +88,16 @@ public class EmployeeDetails {
         users = employeeDao.getAllEmployees();
     }
 
-
-    /*public void delete(Employee user) {
-        Iterator<Employee> iterator = users.iterator();
-        while (iterator.hasNext()) {
-            Employee existingUser = iterator.next();
-            if (existingUser.getId() == user.getId()) {
-                iterator.remove();
-                break;
-            }
-        }
-    }*/
-
-    @Property
-    private int id;
-    @Property
-    private String name;
-    @Property
-    private int age;
-    @Property
-    private String address;
-
-
     public void onActionFromDeleteLink(int id) {
         employeeDao.deleteEmployee(id);
-       // users = employeeDao.getAllEmployees();
-//        Employee user  = new Employee(name,age,address);
-//        delete(user);
     }
 
-  /*  public void afterRender() {
-        users = employeeDao.getAllEmployees();
-    }*/
+
+
+    @OnEvent(component = "imageLink")
+    void imageLink(String imagePath) {
+        this.imagePath = imagePath;
+        ajaxResponseRenderer.addRender(imageDialogZone);
+    }
 }
 
