@@ -26,9 +26,9 @@
             <a t:type = "jquery/DialogAjaxLink" t:id="imageLink" context="literal:src/main/webapp/DummyImage2.png" t:dialog="imageDialog" t:zone = "imageDialogZone">Image</a>
         </p:imageCell>
 
-        <p:idCell>
-            <t:eventlink page="IndividualEmployee" context="[employee.id,employee.name,employee.age,employee.address]">${employee.id}</t:eventlink>
-        </p:idCell>
+        <p:promoteCell>
+            <t:eventlink t:id="promoteLink" context="[employee.id,employee.promote]">${employeeDesg}</t:eventlink>
+        </p:promoteCell>
 
 
     </t:grid>

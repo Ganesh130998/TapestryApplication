@@ -58,7 +58,6 @@ public class NewEmployee {
         if (users == null) {
             users = new ArrayList<>();
         }
-
         users = employeeDao.getAllEmployees();
     }
 
@@ -83,7 +82,7 @@ public class NewEmployee {
         else if(address == null || !address.matches("^[a-zA-Z]*$")){
             form.recordError(addressField, "Please provide correct address");
         }
-        else if(!(employee.getPromote() == "Software Engineer" || employee.getPromote() != "Team Lead" || employee.getPromote() != "Manager")){
+        else if((!promote.equals("Software Engineer") && !promote.equals("Team Lead")  && !promote.equals("Manager"))){
             form.recordError(promoteField, "Please provide correct promotefield");
         }
 

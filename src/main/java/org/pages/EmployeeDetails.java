@@ -55,20 +55,18 @@ public class EmployeeDetails {
 
 
 
-//    @SetupRender
-//    void setup() {
-//        countMap = new HashMap<>();
-//        //designation = ;
-//        for (Employee employee : users) {
-//            countMap.put(employee, 0);
-//        }
-//    }
-
     public void onActivate() {
         if (users == null) {
             users = new ArrayList<>();
         }
+
         users = employeeDao.getAllEmployees();
+    }
+    public String getEmployeeDesg(){
+        if (employee!=null){
+            return employee.getPromote();
+        }
+        return "";
     }
 
     public void set(Employee user) {
@@ -93,6 +91,30 @@ public class EmployeeDetails {
     }
 
 
+    @OnEvent(value = "promoteLink")
+    void onPromoteLink(int id, String promote){
+        //this.promote = promote;
+        Employee emp = employeeDao.getEmployeeById(id);
+        if (emp != null) {
+            emp.setPromote(getUpdatedPromote(promote));
+            employeeDao.updateEmployee(emp);
+        }
+
+    }
+
+    private String getUpdatedPromote(String promote) {
+        String str = "";
+        if(promote == null || promote.isEmpty()){
+            str = "Software Engineer";
+        }
+        else if(promote.equals("Software Engineer")){
+            str = "Team Lead";
+        }
+        else {
+            str = "Manager";
+        }
+        return str;
+    }
 
     @OnEvent(component = "imageLink")
     void imageLink(String imagePath) {

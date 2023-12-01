@@ -66,7 +66,7 @@ public class EditIndividualEmployee {
         else if(employee.getAddress() == null || !employee.getAddress().matches("^[a-zA-Z]*$")){
             form.recordError(addressField, "Please provide correct address");
         }
-        else if(!(employee.getPromote() == "Software Engineer" || employee.getPromote() != "Team Lead" || employee.getPromote() != "Manager")){
+        else if(!employee.getPromote().equals("Software Engineer") && !employee.getPromote().equals("Team Lead") && !employee.getPromote().equals("Manager") ){
             form.recordError(promoteField, "Please provide correct promotefield");
         }
 
